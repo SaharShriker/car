@@ -1,6 +1,8 @@
 package com.car.services;
 
 import com.car.beans.Car;
+import com.car.exception.NotFoundException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
@@ -19,16 +21,19 @@ public class CarService {
     private final String url = "https://data.gov.il/api/3/action/datastore_search?resource_id=053cea08-09bc-40ec-8f7a-156f0677aff3&q=";
     private final List<Car> results;
 
-    public List<Car> getByIdPlate(Long number){
+    public List<Car> getByIdPlate(Long number) throws NotFoundException, JsonProcessingException {
         results.clear();
         String data = restTemplate.getForObject(url+number,String.class);
         JSONArray records = new JSONObject(data).getJSONObject("result").getJSONArray("records");
+        for (Object item : records){
+            results.add(objectMapper.readValue(item.toString(),Car.class));
+        }
+        if (results.isEmpty()){
+            throw new NotFoundException("The car was not found");
+        }
+        return results;
 
 
-
-
-
-        return null;
     }
 
 
