@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CarController {
     private final CarService carService;
 
-    @GetMapping("/car")
+    @GetMapping("/car/{number}")
     public ResponseEntity<?> getByCarNumber(@PathVariable long number) throws NotFoundException, JsonProcessingException {
         return new ResponseEntity<>(carService.getByIdPlate(number), HttpStatus.OK);
     }

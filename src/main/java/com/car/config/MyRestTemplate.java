@@ -12,9 +12,7 @@ public class MyRestTemplate {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder
-                //set connection timeout for 3 sec.
                 .setConnectTimeout(Duration.ofMillis(3_000))
-                //set read timeout for 3 sec.
                 .setReadTimeout(Duration.ofSeconds(10))
                 .build();
     }

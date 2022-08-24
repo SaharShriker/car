@@ -23,6 +23,9 @@ public class CarService {
 
     public List<Car> getByIdPlate(Long number) throws NotFoundException, JsonProcessingException {
         results.clear();
+        if (number<1000000|| number>99999999){
+            throw new NotFoundException("wrong car number");
+        }
         String data = restTemplate.getForObject(url+number,String.class);
         JSONArray records = new JSONObject(data).getJSONObject("result").getJSONArray("records");
         for (Object item : records){

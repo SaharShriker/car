@@ -1,5 +1,6 @@
 package com.car.advice;
 
+import com.car.exception.NotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,5 +17,9 @@ public class CarAdvice {
         return new ErrorDetail("Bad JSON",err.getMessage());
     }
 
-
+    @ExceptionHandler(value = {NotFoundException.class})
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    public ErrorDetail notFound(Exception err){
+        return new ErrorDetail("Bad Number",err.getMessage());
+    }
 }
